@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Movement</string>
+    <string name="new_movement_name_hint">Movement Name</string>
+    <string name="new_movement_save">Save</string>
+    <string name="new_movement_save_and_start">Save &amp; Start</string>
+    <string name="new_movement_activity_title">New Movement</string>
+</resources>

@@ -1,5 +1,6 @@
 package com.joshimbriani.mymovement;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,9 +25,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.movementRecyclerView);
-        final MovementListAdapter adapter = new MovementListAdapter(this);
+        final MovementListAdapter adapter = new MovementListAdapter(getApplicationContext());
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setRecyclerListener(mRecycleListener);
         mMovementViewModel = new ViewModelProvider(this).get(MovementViewModel.class);
         mMovementViewModel.getAllMovements().observe(this, (movements) -> {
             adapter.setMovements(movements);
@@ -48,4 +52,15 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.main_root_layout), "Empty name", Snackbar.LENGTH_SHORT);
         }
     }
+
+    private RecyclerView.RecyclerListener mRecycleListener = new RecyclerView.RecyclerListener() {
+        @Override
+        public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+            MovementListAdapter.MovementViewHolder mapHolder = (MovementListAdapter.MovementViewHolder) holder;
+            if (mapHolder != null && mapHolder.map != null) {
+                mapHolder.map.clear();
+                mapHolder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
+            }
+        }
+    };
 }

@@ -12,3 +12,4 @@
 /captures
 .externalNativeBuild
 .cxx
+/mobile/src/main/res/values/secrets.xml

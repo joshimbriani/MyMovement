@@ -3,8 +3,6 @@ package com.joshimbriani.mymovement;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -23,7 +21,8 @@ public class NewMovementActivity extends AppCompatActivity {
         saveButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
             if (TextUtils.isEmpty(mEditMovementNameView.getText())) {
-                setResult(RESULT_CANCELED, replyIntent);
+                mEditMovementNameView.setError("Name cannot be empty");
+                return;
             } else {
                 String movement = mEditMovementNameView.getText().toString();
                 replyIntent.putExtra(EXTRA_REPLY, movement);
@@ -36,7 +35,8 @@ public class NewMovementActivity extends AppCompatActivity {
         saveAndStartButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
             if (TextUtils.isEmpty(mEditMovementNameView.getText())) {
-                setResult(RESULT_CANCELED, replyIntent);
+                mEditMovementNameView.setError("Name cannot be empty");
+                return;
             } else {
                 String movement = mEditMovementNameView.getText().toString();
                 replyIntent.putExtra(EXTRA_REPLY, movement);

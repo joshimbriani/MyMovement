@@ -4,4 +4,5 @@
     <string name="new_movement_save">Save</string>
     <string name="new_movement_save_and_start">Save &amp; Start</string>
     <string name="new_movement_activity_title">New Movement</string>
+    <string name="location_service_desc">The background location getter for MyMovement</string>
 </resources>

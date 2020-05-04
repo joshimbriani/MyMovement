@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setRecyclerListener(mRecycleListener);
         mMovementViewModel = new ViewModelProvider(this).get(MovementViewModel.class);
-        mMovementViewModel.getAllMovements().observe(this, (movements) -> {
-            adapter.setMovements(movements);
+        mMovementViewModel.getAllMovementsWithPoints().observe(this, (movements) -> {
+            adapter.setAllMovementsWithPoints(movements);
         });
     }
 

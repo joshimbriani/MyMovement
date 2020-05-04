@@ -18,6 +18,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,14 +40,22 @@ public class LocationService extends Service {
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
 
+    private MovementRepository movementRepository;
+
     @Override
     public void onCreate() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        movementRepository = new MovementRepository(getApplication());
+
         locationCallback = new LocationCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
+                MovementPoint movementPoint = new MovementPoint(1, locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                Log.e("TEST", "Inserted point");
+                movementRepository.insert(movementPoint);
                 Log.e("TEST", "Location: " + locationResult.getLastLocation());
             }
         };

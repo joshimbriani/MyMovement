@@ -1,11 +1,14 @@
 package com.joshimbriani.mymovement;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +26,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
     class MovementViewHolder extends RecyclerView.ViewHolder implements OnMapReadyCallback {
         private final TextView movementItemView;
         private final MapView movementMapView;
+        private final TextView movementPointCountView;
         private final Context mContext;
 
         protected GoogleMap map;
@@ -31,6 +35,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
             super(itemView);
             movementItemView = itemView.findViewById(R.id.movementName);
             movementMapView = itemView.findViewById(R.id.mapView);
+            movementPointCountView = itemView.findViewById(R.id.movementPointCount);
             if (movementMapView != null) {
                 movementMapView.onCreate(null);
                 movementMapView.getMapAsync(this);
@@ -58,7 +63,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
     }
 
     private final LayoutInflater mInflater;
-    private List<Movement> mMovements;
+    private List<MovementWithPoints> mMovements;
     private Context mContext;
 
     MovementListAdapter(Context context) {
@@ -76,15 +81,16 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
     @Override
     public void onBindViewHolder(MovementViewHolder holder, int position) {
         if (mMovements != null) {
-            Movement current = mMovements.get(position);
-            holder.movementItemView.setText(current.getName());
+            MovementWithPoints movementWithPoints = mMovements.get(position);
+            holder.movementItemView.setText(movementWithPoints.movement.getName());
+            holder.movementPointCountView.setText("" + movementWithPoints.points.size());
             holder.setMapLocation();
         } else {
             holder.movementItemView.setText("No Movement");
         }
     }
 
-    void setMovements(List<Movement> movements) {
+    void setAllMovementsWithPoints(List<MovementWithPoints> movements) {
         mMovements = movements;
         notifyDataSetChanged();
     }

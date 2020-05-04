@@ -9,16 +9,16 @@ import java.util.List;
 
 public class MovementViewModel extends AndroidViewModel {
     private MovementRepository mRepository;
-    private LiveData<List<Movement>> mAllMovements;
+    private LiveData<List<MovementWithPoints>> mAllMovementsWithPoints;
 
     public MovementViewModel(Application application) {
         super(application);
         mRepository = new MovementRepository(application);
-        mAllMovements = mRepository.getAllMovements();
+        mAllMovementsWithPoints = mRepository.getAllMovementsWithPoints();
     }
 
-    LiveData<List<Movement>> getAllMovements() {
-        return  mAllMovements;
+    LiveData<List<MovementWithPoints>> getAllMovementsWithPoints() {
+        return mAllMovementsWithPoints;
     }
 
     public void insert(Movement movement) {

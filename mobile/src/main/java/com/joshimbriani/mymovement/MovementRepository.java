@@ -8,21 +8,29 @@ import java.util.List;
 
 public class MovementRepository {
     private MovementDao mMovementDao;
-    private LiveData<List<Movement>> mAllMovements;
+    private MovementPointDao mMovementPointDao;
+    private LiveData<List<MovementWithPoints>> mAllMovementsWithPoints;
 
     MovementRepository(Application application) {
         MovementRoomDatabase db = MovementRoomDatabase.getDatabase(application);
         mMovementDao = db.movementDao();
-        mAllMovements = mMovementDao.getMovements();
+        mMovementPointDao = db.movementPointDao();
+        mAllMovementsWithPoints = mMovementDao.getMovementsWithPoints();
     }
 
-    LiveData<List<Movement>> getAllMovements() {
-        return mAllMovements;
+    LiveData<List<MovementWithPoints>> getAllMovementsWithPoints() {
+        return mAllMovementsWithPoints;
     }
 
     void insert(Movement movement) {
         MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
             mMovementDao.insert(movement);
+        });
+    }
+
+    void insert(MovementPoint movementPoint) {
+        MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mMovementPointDao.insert(movementPoint);
         });
     }
 }

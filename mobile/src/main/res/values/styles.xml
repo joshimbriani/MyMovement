@@ -11,9 +11,23 @@
     <!-- The default font for RecyclerView items is too small. The margin is a simple delimiter between the words. -->
     <style name="movement_title">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginVertical">8dp</item>
         <item name="android:paddingLeft">8dp</item>
-        <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Large</item>
+    </style>
+
+    <style name="movement_num_points">
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Small</item>
+        <item name="android:layout_alignParentRight">true</item>
+    </style>
+
+    <style name="movement_date">
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Medium</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginLeft">8dp</item>
     </style>
 
 </resources>

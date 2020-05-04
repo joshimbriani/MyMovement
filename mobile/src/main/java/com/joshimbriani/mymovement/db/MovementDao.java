@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

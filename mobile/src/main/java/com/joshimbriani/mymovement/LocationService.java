@@ -26,11 +26,10 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.joshimbriani.mymovement.db.MovementPoint;
+import com.joshimbriani.mymovement.db.MovementRepository;
 
 public class LocationService extends Service {
     public static final String CHANNEL_ID = "LocationServiceChannel";

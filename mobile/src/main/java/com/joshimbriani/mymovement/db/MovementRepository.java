@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.db;
 
 import android.app.Application;
 
@@ -11,24 +11,24 @@ public class MovementRepository {
     private MovementPointDao mMovementPointDao;
     private LiveData<List<MovementWithPoints>> mAllMovementsWithPoints;
 
-    MovementRepository(Application application) {
+    public MovementRepository(Application application) {
         MovementRoomDatabase db = MovementRoomDatabase.getDatabase(application);
         mMovementDao = db.movementDao();
         mMovementPointDao = db.movementPointDao();
         mAllMovementsWithPoints = mMovementDao.getMovementsWithPoints();
     }
 
-    LiveData<List<MovementWithPoints>> getAllMovementsWithPoints() {
+    public LiveData<List<MovementWithPoints>> getAllMovementsWithPoints() {
         return mAllMovementsWithPoints;
     }
 
-    void insert(Movement movement) {
+    public void insert(Movement movement) {
         MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
             mMovementDao.insert(movement);
         });
     }
 
-    void insert(MovementPoint movementPoint) {
+    public void insert(MovementPoint movementPoint) {
         MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
             mMovementPointDao.insert(movementPoint);
         });

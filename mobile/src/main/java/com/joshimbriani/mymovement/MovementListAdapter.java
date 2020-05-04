@@ -1,14 +1,11 @@
 package com.joshimbriani.mymovement;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,6 +15,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.joshimbriani.mymovement.db.MovementWithPoints;
 
 import java.util.List;
 
@@ -27,6 +25,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
         private final TextView movementItemView;
         private final MapView movementMapView;
         private final TextView movementPointCountView;
+        private final TextView movementDateView;
         private final Context mContext;
 
         protected GoogleMap map;
@@ -36,6 +35,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
             movementItemView = itemView.findViewById(R.id.movementName);
             movementMapView = itemView.findViewById(R.id.mapView);
             movementPointCountView = itemView.findViewById(R.id.movementPointCount);
+            movementDateView = itemView.findViewById(R.id.movementDates);
             if (movementMapView != null) {
                 movementMapView.onCreate(null);
                 movementMapView.getMapAsync(this);
@@ -84,6 +84,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
             MovementWithPoints movementWithPoints = mMovements.get(position);
             holder.movementItemView.setText(movementWithPoints.movement.getName());
             holder.movementPointCountView.setText("" + movementWithPoints.points.size());
+            holder.movementDateView.setText(movementWithPoints.getDatetimeRange());
             holder.setMapLocation();
         } else {
             holder.movementItemView.setText("No Movement");

@@ -1,9 +1,11 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.joshimbriani.mymovement.db.MovementPoint;
 
 import java.util.List;
 

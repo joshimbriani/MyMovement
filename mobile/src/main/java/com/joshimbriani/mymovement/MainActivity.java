@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.snackbar.Snackbar;
+import com.joshimbriani.mymovement.db.Movement;
 
 public class MainActivity extends AppCompatActivity {
     public static final int NEW_MOVEMENT_ACTIVITY_REQUEST_CODE = 1;

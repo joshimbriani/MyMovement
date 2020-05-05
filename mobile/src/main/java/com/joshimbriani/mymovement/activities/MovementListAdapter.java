@@ -117,6 +117,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
             holder.cardView.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, MovementDetailActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("movementId", movementWithPoints.movement.getId());
                 mContext.startActivity(intent);
             });
             holder.setMapLocation(movementWithPoints);

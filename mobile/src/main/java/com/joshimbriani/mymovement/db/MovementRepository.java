@@ -22,6 +22,10 @@ public class MovementRepository {
         return mAllMovementsWithPoints;
     }
 
+    public LiveData<MovementWithPoints> getMovement(long id) {
+        return mMovementDao.getMovement(id);
+    }
+
     public void insert(Movement movement) {
         MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
             mMovementDao.insert(movement);

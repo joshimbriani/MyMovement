@@ -20,4 +20,7 @@ public interface MovementDao {
     @Transaction
     @Query("SELECT * FROM movement_table ORDER BY name ASC")
     LiveData<List<MovementWithPoints>> getMovementsWithPoints();
+
+    @Query("SELECT * FROM movement_table WHERE id = :id")
+    LiveData<MovementWithPoints> getMovement(long id);
 }

@@ -18,12 +18,12 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <service
-            android:name=".LocationService"
+            android:name=".services.LocationService"
             android:enabled="true"
             android:exported="false"
             android:description="@string/location_service_desc" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,12 +31,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewMovementActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".activities.NewMovementActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:label="@string/new_movement_activity_title">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
     </application>
 

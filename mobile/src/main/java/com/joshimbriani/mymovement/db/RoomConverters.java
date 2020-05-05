@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.db;
 
 import android.os.Build;
 
@@ -19,6 +19,6 @@ public class RoomConverters {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
     public static long dateToTimestamp(ZonedDateTime date) {
-        return date == null ? null : date.toEpochSecond() * 1000;
+        return date == null ? null : date.toEpochSecond();
     }
 }

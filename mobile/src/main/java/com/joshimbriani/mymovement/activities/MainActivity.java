@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.snackbar.Snackbar;
+import com.joshimbriani.mymovement.R;
 import com.joshimbriani.mymovement.db.Movement;
 
 public class MainActivity extends AppCompatActivity {

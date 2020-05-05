@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.util;
 
 public class Constants {
     public static String START_LOCATION_SERVICE = "START_LOCATION_SERVICE";

@@ -9,8 +9,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.joshimbriani.mymovement.RoomConverters;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.services;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -28,6 +28,8 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.joshimbriani.mymovement.R;
+import com.joshimbriani.mymovement.activities.MainActivity;
 import com.joshimbriani.mymovement.db.MovementPoint;
 import com.joshimbriani.mymovement.db.MovementRepository;
 

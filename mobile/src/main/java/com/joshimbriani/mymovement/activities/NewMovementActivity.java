@@ -1,7 +1,6 @@
-package com.joshimbriani.mymovement;
+package com.joshimbriani.mymovement.activities;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +13,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.joshimbriani.mymovement.services.LocationService;
+import com.joshimbriani.mymovement.R;
 
 public class NewMovementActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY = "com.joshimbriani.mymovement.REPLY";

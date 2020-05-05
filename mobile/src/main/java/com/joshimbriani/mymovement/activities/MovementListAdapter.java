@@ -1,11 +1,14 @@
 package com.joshimbriani.mymovement.activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +27,7 @@ import java.util.List;
 public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapter.MovementViewHolder>  {
 
     class MovementViewHolder extends RecyclerView.ViewHolder implements OnMapReadyCallback {
+        private final CardView cardView;
         private final TextView movementItemView;
         private final MapView movementMapView;
         private final TextView movementPointCountView;
@@ -39,6 +43,7 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
             movementMapView = itemView.findViewById(R.id.mapView);
             movementPointCountView = itemView.findViewById(R.id.movementPointCount);
             movementDateView = itemView.findViewById(R.id.movementDates);
+            cardView = itemView.findViewById(R.id.card_view);
             if (movementMapView != null) {
                 movementMapView.onCreate(null);
                 movementMapView.getMapAsync(this);
@@ -109,6 +114,11 @@ public class MovementListAdapter extends RecyclerView.Adapter<MovementListAdapte
             holder.movementItemView.setText(movementWithPoints.movement.getName());
             holder.movementPointCountView.setText("" + movementWithPoints.points.size());
             holder.movementDateView.setText(movementWithPoints.getDatetimeRange());
+            holder.cardView.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, MovementDetailActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            });
             holder.setMapLocation(movementWithPoints);
         } else {
             holder.movementItemView.setText("No Movement");

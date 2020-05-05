@@ -5,4 +5,7 @@
     <string name="new_movement_save_and_start">Save &amp; Start</string>
     <string name="new_movement_activity_title">New Movement</string>
     <string name="location_service_desc">The background location getter for MyMovement</string>
+    <string name="movement_detail_activity_title">Movement Detail</string>
+    <string name="movement_detail_recyclerview_point_placeholder">100.0, -120.0</string>
+    <string name="movement_detail_recyclerview_datetime_placeholder">12/07/1941 3:21pm</string>
 </resources>

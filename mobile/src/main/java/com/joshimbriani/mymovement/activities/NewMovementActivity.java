@@ -46,29 +46,13 @@ public class NewMovementActivity extends AppCompatActivity {
                 mEditMovementNameView.setError("Name cannot be empty");
                 return;
             } else {
-                requestLocationPermission();
                 String movement = mEditMovementNameView.getText().toString();
                 replyIntent.putExtra(EXTRA_REPLY, movement);
                 setResult(RESULT_OK, replyIntent);
-                startService(1);
+                startService(1); // TODO: Change this to start the proper movement
             }
             finish();
         });
-    }
-
-    private void requestLocationPermission() {
-        boolean shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION);
-
-        if (shouldProvideRationale) {
-            Snackbar.make(findViewById(R.id.main_root_layout), "To use the app, you need to provide fine permissions.", Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ActivityCompat.requestPermissions(NewMovementActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 34);
-                }
-            });
-        } else {
-            ActivityCompat.requestPermissions(NewMovementActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 34);
-        }
     }
 
     private void startService(long movementId) {

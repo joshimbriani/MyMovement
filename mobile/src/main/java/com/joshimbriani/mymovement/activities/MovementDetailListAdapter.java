@@ -45,15 +45,16 @@ public class MovementDetailListAdapter extends RecyclerView.Adapter<MovementDeta
 
     @Override
     public void onBindViewHolder(MovementDetailViewHolder holder, int position) {
-        if (mMovement != null) {
-            MovementPoint point = mMovement.points.get(position);
+        if (this.mMovement != null) {
+            this.mMovement.sortPoints();
+            MovementPoint point = this.mMovement.points.get(position);
             holder.pointDetailView.setText(point.getLat() + " " + point.getLon());
             holder.pointDatetimeView.setText(point.getDateTime().format(DateTimeFormatter.ofPattern("hh:mma")));
         }
     }
 
     void setMovement(MovementWithPoints movement) {
-        mMovement = movement;
+        this.mMovement = movement;
         notifyDataSetChanged();
     }
 

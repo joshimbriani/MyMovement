@@ -2,10 +2,12 @@ package com.joshimbriani.mymovement.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        requestLocationPermission();
+
         RecyclerView recyclerView = findViewById(R.id.movementRecyclerView);
         final MovementListAdapter adapter = new MovementListAdapter(getApplicationContext());
         recyclerView.setHasFixedSize(true);
@@ -35,6 +39,21 @@ public class MainActivity extends AppCompatActivity {
         mMovementViewModel.getAllMovementsWithPoints().observe(this, (movements) -> {
             adapter.setAllMovementsWithPoints(movements);
         });
+    }
+
+    private void requestLocationPermission() {
+        boolean shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (shouldProvideRationale) {
+            Snackbar.make(findViewById(R.id.main_root_layout), "To use the app, you need to provide fine permissions.", Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 34);
+                }
+            });
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 34);
+        }
     }
 
     public void startCreateActivity(View v) {

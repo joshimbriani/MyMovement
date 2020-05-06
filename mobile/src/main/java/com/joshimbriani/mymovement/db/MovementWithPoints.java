@@ -87,4 +87,11 @@ public class MovementWithPoints {
 
         return CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lon), zoom);
     }
+
+    public void sortPoints() {
+        Log.e("TEST", points.get(0) + "f");
+        //Collections.sort(points, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
+        points.sort((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
+        Log.e("TEST", points.get(0) + "f");
+    }
 }

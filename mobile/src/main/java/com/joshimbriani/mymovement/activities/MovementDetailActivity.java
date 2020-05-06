@@ -1,10 +1,16 @@
 package com.joshimbriani.mymovement.activities;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +25,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.joshimbriani.mymovement.R;
 import com.joshimbriani.mymovement.db.MovementPoint;
 import com.joshimbriani.mymovement.db.MovementWithPoints;
+import com.joshimbriani.mymovement.services.LocationService;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MovementDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -26,6 +36,7 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     private MapView movementDetailMapView;
     private GoogleMap map;
     private long movementId;
+    private boolean serviceRunning;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +44,11 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
         setContentView(R.layout.activity_movement_detail);
 
         movementId = getIntent().getLongExtra("movementId", 1);
+        Log.e("SEEME", movementId + "");
+        serviceRunning = LocationService.serviceRunning && LocationService.serviceId == movementId;
+
+        if (serviceRunning) {
+        }
 
         movementDetailMapView = findViewById(R.id.detail_map_view);
         if (movementDetailMapView != null) {
@@ -58,6 +74,28 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.movement_detail_menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_start:
+                if (serviceRunning) {
+                    stopService();
+                    serviceRunning = false;
+                } else {
+                    startService();
+                    serviceRunning = true;
+                }
+                return true;
+
+            case R.id.action_edit:
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override
@@ -88,4 +126,14 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 
+    private void startService() {
+        Intent serviceIntent = new Intent(this, LocationService.class);
+        serviceIntent.putExtra("movementId", movementId);
+
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+
+    private void stopService() {
+        getApplicationContext().sendBroadcast(new Intent("StopService"));
+    }
 }

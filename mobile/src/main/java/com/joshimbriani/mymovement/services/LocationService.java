@@ -34,6 +34,9 @@ import com.joshimbriani.mymovement.db.MovementPoint;
 import com.joshimbriani.mymovement.db.MovementRepository;
 
 public class LocationService extends Service {
+    public static long serviceId = -1;
+    public static boolean serviceRunning = false;
+
     public static final String CHANNEL_ID = "LocationServiceChannel";
     private HandlerThread handlerThread = new HandlerThread("LocationGetter");
     private Handler handler;
@@ -46,26 +49,25 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
         movementRepository = new MovementRepository(getApplication());
-
-        locationCallback = new LocationCallback() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                MovementPoint movementPoint = new MovementPoint(1, locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                Log.e("TEST", "Inserted point");
-                movementRepository.insert(movementPoint);
-                Log.e("TEST", "Location: " + locationResult.getLastLocation());
-            }
-        };
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         createNotificationChannel();
         registerReceiver(stopServiceReceiver, new IntentFilter("StopService"));
+
+        serviceId = intent.getLongExtra("movementId", 1);
+        serviceRunning = true;
+        locationCallback = new LocationCallback() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                MovementPoint movementPoint = new MovementPoint(serviceId, locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                movementRepository.insert(movementPoint);
+            }
+        };
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
@@ -88,6 +90,8 @@ public class LocationService extends Service {
 
     @Override
     public void onDestroy() {
+        serviceRunning = false;
+        serviceId = -1;
         unregisterReceiver(stopServiceReceiver);
     }
 
@@ -112,12 +116,7 @@ public class LocationService extends Service {
         }
     }
 
-    private Runnable locationGetter = new Runnable() {
-        @Override
-        public void run() {
-            getAndSaveLocationToMovement();
-        }
-    };
+    private Runnable locationGetter = () -> getAndSaveLocationToMovement();
 
     private void getAndSaveLocationToMovement() {
         Log.e("TEST", "Starting to try to get updates");

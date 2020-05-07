@@ -37,4 +37,10 @@ public class MovementRepository {
             mMovementPointDao.insert(movementPoint);
         });
     }
+
+    public void update(Movement movement) {
+        MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mMovementDao.updateMovement(movement);
+        });
+    }
 }

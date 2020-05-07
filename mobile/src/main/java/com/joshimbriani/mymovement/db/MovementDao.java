@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface MovementDao {
 
     @Query("SELECT * FROM movement_table WHERE id = :id")
     LiveData<MovementWithPoints> getMovement(long id);
+
+    @Update
+    public void updateMovement(Movement movement);
 }

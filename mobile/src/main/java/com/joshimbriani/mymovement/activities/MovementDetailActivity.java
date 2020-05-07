@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +38,7 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     private GoogleMap map;
     private long movementId;
     private boolean serviceRunning;
+    private Menu menu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +46,6 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
         setContentView(R.layout.activity_movement_detail);
 
         movementId = getIntent().getLongExtra("movementId", 1);
-        Log.e("SEEME", movementId + "");
         serviceRunning = LocationService.serviceRunning && LocationService.serviceId == movementId;
 
         if (serviceRunning) {
@@ -73,6 +74,8 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.movement_detail_menu, menu);
+        this.menu = menu;
+        setStartStopButton();
         return true;
     }
 
@@ -87,15 +90,16 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
                     startService();
                     serviceRunning = true;
                 }
+                setStartStopButton();
                 return true;
 
             case R.id.action_edit:
+
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override
@@ -124,6 +128,10 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
             map.addMarker(new MarkerOptions().position(new LatLng(point.getLat(), point.getLon())));
         }
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    }
+
+    private void setStartStopButton() {
+        menu.getItem(0).setIcon(ResourcesCompat.getDrawable(getResources(), serviceRunning ? R.drawable.ic_stop : R.drawable.ic_start, null));
     }
 
     private void startService() {

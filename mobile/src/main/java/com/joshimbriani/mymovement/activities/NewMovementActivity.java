@@ -1,6 +1,7 @@
 package com.joshimbriani.mymovement.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.joshimbriani.mymovement.db.Movement;
 import com.joshimbriani.mymovement.services.LocationService;
@@ -19,6 +21,7 @@ public class NewMovementActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY = "com.joshimbriani.mymovement.REPLY";
     private EditText mEditMovementNameView;
     private NewMovementViewModel newMovementViewModel;
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,14 @@ public class NewMovementActivity extends AppCompatActivity {
             }
             finish();
         });
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     private void startService(long movementId) {
         Intent serviceIntent = new Intent(this, LocationService.class);
         serviceIntent.putExtra("movementId", movementId);
+        serviceIntent.putExtra("refreshInterval", Integer.parseInt(mPreferences.getString("refresh_value", "60")));
 
         ContextCompat.startForegroundService(this, serviceIntent);
     }

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -38,6 +40,25 @@ public class MainActivity extends AppCompatActivity {
         mMovementViewModel.getAllMovementsWithPoints().observe(this, (movements) -> {
             adapter.setAllMovementsWithPoints(movements);
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void requestLocationPermission() {

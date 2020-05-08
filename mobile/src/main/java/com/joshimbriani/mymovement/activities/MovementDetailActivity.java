@@ -3,7 +3,9 @@ package com.joshimbriani.mymovement.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +42,7 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     private long movementId;
     private boolean serviceRunning;
     private Menu menu;
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +81,8 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
                 movementDetailEmptyText.setVisibility(View.VISIBLE);
             }
         });
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
@@ -152,6 +158,7 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     private void startService() {
         Intent serviceIntent = new Intent(this, LocationService.class);
         serviceIntent.putExtra("movementId", movementId);
+        serviceIntent.putExtra("refreshInterval", Integer.parseInt(mPreferences.getString("refresh_value", "60")));
 
         ContextCompat.startForegroundService(this, serviceIntent);
     }

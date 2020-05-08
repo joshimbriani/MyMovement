@@ -35,6 +35,7 @@ import com.joshimbriani.mymovement.db.MovementRepository;
 
 public class LocationService extends Service {
     public static long serviceId = -1;
+    public static int refreshInterval;
     public static boolean serviceRunning = false;
 
     public static final String CHANNEL_ID = "LocationServiceChannel";
@@ -58,6 +59,7 @@ public class LocationService extends Service {
         registerReceiver(stopServiceReceiver, new IntentFilter("StopService"));
 
         serviceId = intent.getLongExtra("movementId", 1);
+        refreshInterval = intent.getIntExtra("refreshInterval", 60);
         serviceRunning = true;
         locationCallback = new LocationCallback() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -100,7 +102,6 @@ public class LocationService extends Service {
         public void onReceive(Context context, Intent intent) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
             handler.removeCallbacks(locationGetter);
-            Log.e("TEST", "Quitting");
             handlerThread.quit();
             stopForeground(true);
             stopSelf();
@@ -119,14 +120,12 @@ public class LocationService extends Service {
     private Runnable locationGetter = () -> getAndSaveLocationToMovement();
 
     private void getAndSaveLocationToMovement() {
-        Log.e("TEST", "Starting to try to get updates");
         locationRequest = createLocationRequest();
 
         fusedLocationProviderClient.getLastLocation()
                 .addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-                        Log.e("TEST", "Got result " + task.isSuccessful() + " " + task.getResult());
                         if (task.isSuccessful() && task.getResult() != null) {
                             Log.e("TEST", "Location " + task.getResult());
                         }
@@ -142,7 +141,7 @@ public class LocationService extends Service {
 
     private LocationRequest createLocationRequest() {
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(1000);
+        locationRequest.setInterval(refreshInterval * 1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         return locationRequest;

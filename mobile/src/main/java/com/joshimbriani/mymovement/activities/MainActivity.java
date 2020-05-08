@@ -1,6 +1,5 @@
 package com.joshimbriani.mymovement.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void startCreateActivity(View v) {
         Intent intent = new Intent(this, NewMovementActivity.class);
-        startActivityForResult(intent, NEW_MOVEMENT_ACTIVITY_REQUEST_CODE);
+        startActivity(intent);
     }
 
     @Override
@@ -73,14 +72,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private RecyclerView.RecyclerListener mRecycleListener = new RecyclerView.RecyclerListener() {
-        @Override
-        public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
-            MovementListAdapter.MovementViewHolder mapHolder = (MovementListAdapter.MovementViewHolder) holder;
-            if (mapHolder != null && mapHolder.map != null) {
-                mapHolder.map.clear();
-                mapHolder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
-            }
+    private RecyclerView.RecyclerListener mRecycleListener = holder -> {
+        MovementListAdapter.MovementViewHolder mapHolder = (MovementListAdapter.MovementViewHolder) holder;
+        if (mapHolder != null && mapHolder.map != null) {
+            mapHolder.map.clear();
+            mapHolder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
         }
     };
 }

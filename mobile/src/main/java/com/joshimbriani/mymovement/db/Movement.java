@@ -25,4 +25,8 @@ public class Movement {
 
     public long getId(){return this.id;}
     public String getName(){return this.mName;}
+
+    public void setName(String name) {
+        mName = name;
+    }
 }

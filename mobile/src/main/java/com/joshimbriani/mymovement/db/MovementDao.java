@@ -18,6 +18,9 @@ public interface MovementDao {
     @Query("DELETE FROM movement_table")
     void deleteAll();
 
+    @Query("DELETE FROM movement_table WHERE id = :id")
+    void delete(long id);
+
     @Transaction
     @Query("SELECT * FROM movement_table ORDER BY name ASC")
     LiveData<List<MovementWithPoints>> getMovementsWithPoints();
@@ -25,6 +28,9 @@ public interface MovementDao {
     @Query("SELECT * FROM movement_table WHERE id = :id")
     LiveData<MovementWithPoints> getMovement(long id);
 
+    @Query("SELECT * FROM movement_table WHERE id = :id")
+    Movement getRawMovement(long id);
+
     @Update
-    public void updateMovement(Movement movement);
+    void updateMovement(Movement movement);
 }

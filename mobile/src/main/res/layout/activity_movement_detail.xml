@@ -21,4 +21,14 @@
         android:id="@+id/movement_detail_recycler_view"
         app:layout_constraintTop_toBottomOf="@id/detail_map_view"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/movement_detail_empty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"
+        android:text="You haven't recorded any points in this Movement.\nTo add points click the start button."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/detail_map_view"
+        map:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

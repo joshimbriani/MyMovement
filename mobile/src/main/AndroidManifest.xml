@@ -46,6 +46,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+        <activity android:name=".activities.EditMovementActivity"
+            android:parentActivityName=".activities.MovementDetailActivity"
+            android:label="Edit Movement Details">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MovementDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

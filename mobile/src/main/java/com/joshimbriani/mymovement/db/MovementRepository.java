@@ -1,6 +1,7 @@
 package com.joshimbriani.mymovement.db;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -32,6 +33,10 @@ public class MovementRepository {
         });
     }
 
+    public long rawInsert(Movement movement) {
+        return mMovementDao.insert(movement);
+    }
+
     public void insert(MovementPoint movementPoint) {
         MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
             mMovementPointDao.insert(movementPoint);
@@ -41,6 +46,20 @@ public class MovementRepository {
     public void update(Movement movement) {
         MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
             mMovementDao.updateMovement(movement);
+        });
+    }
+
+    public void updateName(long id, String name) {
+        MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
+            Movement movement = mMovementDao.getRawMovement(id);
+            movement.setName(name);
+            update(movement);
+        });
+    }
+
+    public void deleteMovement(long id) {
+        MovementRoomDatabase.databaseWriteExecutor.execute(() -> {
+            mMovementDao.delete(id);
         });
     }
 }

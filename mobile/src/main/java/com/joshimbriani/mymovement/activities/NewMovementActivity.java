@@ -1,55 +1,61 @@
 package com.joshimbriani.mymovement.activities;
 
-import android.Manifest;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.joshimbriani.mymovement.db.Movement;
 import com.joshimbriani.mymovement.services.LocationService;
 import com.joshimbriani.mymovement.R;
 
 public class NewMovementActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY = "com.joshimbriani.mymovement.REPLY";
     private EditText mEditMovementNameView;
+    private NewMovementViewModel newMovementViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_movement);
         mEditMovementNameView = findViewById(R.id.movementNameEditText);
+        newMovementViewModel = new ViewModelProvider(this).get(NewMovementViewModel.class);
 
         final Button saveButton = findViewById(R.id.button_save);
         saveButton.setOnClickListener(view -> {
-            Intent replyIntent = new Intent();
             if (TextUtils.isEmpty(mEditMovementNameView.getText())) {
                 mEditMovementNameView.setError("Name cannot be empty");
                 return;
             } else {
-                String movement = mEditMovementNameView.getText().toString();
-                replyIntent.putExtra(EXTRA_REPLY, movement);
-                setResult(RESULT_OK, replyIntent);
+                AsyncTask.execute(() -> {
+                    String movementName = mEditMovementNameView.getText().toString();
+                    Movement newMovement = new Movement(movementName);
+                    newMovementViewModel.createMovement(newMovement);
+                    finish();
+                });
             }
             finish();
         });
 
         final Button saveAndStartButton = findViewById(R.id.button_save_and_start);
         saveAndStartButton.setOnClickListener(view -> {
-            Intent replyIntent = new Intent();
             if (TextUtils.isEmpty(mEditMovementNameView.getText())) {
                 mEditMovementNameView.setError("Name cannot be empty");
                 return;
             } else {
-                String movement = mEditMovementNameView.getText().toString();
-                replyIntent.putExtra(EXTRA_REPLY, movement);
-                setResult(RESULT_OK, replyIntent);
-                startService(1); // TODO: Change this to start the proper movement
+                AsyncTask.execute(() -> {
+                    String movementName = mEditMovementNameView.getText().toString();
+                    Movement newMovement = new Movement(movementName);
+                    long id = newMovementViewModel.createMovement(newMovement);
+                    startService(id);
+                    finish();
+                });
             }
             finish();
         });

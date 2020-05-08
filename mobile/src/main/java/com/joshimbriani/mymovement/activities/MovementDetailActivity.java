@@ -1,11 +1,13 @@
 package com.joshimbriani.mymovement.activities;
 
-import android.app.PendingIntent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,13 +30,11 @@ import com.joshimbriani.mymovement.db.MovementPoint;
 import com.joshimbriani.mymovement.db.MovementWithPoints;
 import com.joshimbriani.mymovement.services.LocationService;
 
-import java.util.Collections;
-import java.util.Comparator;
-
 public class MovementDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
-
     private MovementDetailViewModel mMovementDetailViewModel;
     private MapView movementDetailMapView;
+    private TextView movementDetailEmptyText;
+    private RecyclerView recyclerView;
     private GoogleMap map;
     private long movementId;
     private boolean serviceRunning;
@@ -48,25 +48,33 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
         movementId = getIntent().getLongExtra("movementId", 1);
         serviceRunning = LocationService.serviceRunning && LocationService.serviceId == movementId;
 
-        if (serviceRunning) {
-        }
-
         movementDetailMapView = findViewById(R.id.detail_map_view);
         if (movementDetailMapView != null) {
             movementDetailMapView.onCreate(null);
             movementDetailMapView.getMapAsync(this);
         }
-        RecyclerView recyclerView = findViewById(R.id.movement_detail_recycler_view);
+        movementDetailEmptyText = findViewById(R.id.movement_detail_empty_text);
+        recyclerView = findViewById(R.id.movement_detail_recycler_view);
         final MovementDetailListAdapter adapter = new MovementDetailListAdapter(getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mMovementDetailViewModel = new ViewModelProvider(this, new MovementDetailViewModelFactory(getApplication(), movementId)).get(MovementDetailViewModel.class);
         mMovementDetailViewModel.getMovement().observe(this, (movement) -> {
+            if (movement == null) {
+                return;
+            }
             getSupportActionBar().setTitle(movement.movement.getName());
-            adapter.setMovement(movement);
-            if (map != null) {
-                setMapPoints(movement);
+            if (movement.points.size() > 0) {
+                adapter.setMovement(movement);
+                if (map != null) {
+                    setMapPoints(movement);
+                }
+                recyclerView.setVisibility(View.VISIBLE);
+                movementDetailEmptyText.setVisibility(View.GONE);
+            } else {
+                recyclerView.setVisibility(View.GONE);
+                movementDetailEmptyText.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -94,7 +102,14 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
                 return true;
 
             case R.id.action_edit:
+                Intent intent = new Intent(this, EditMovementActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("movementId", movementId);
+                startActivity(intent);
+                return true;
 
+            case R.id.action_delete:
+                deleteMovement();
                 return true;
 
             default:
@@ -143,5 +158,29 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
 
     private void stopService() {
         getApplicationContext().sendBroadcast(new Intent("StopService"));
+    }
+
+    private void deleteMovement() {
+        new AlertDialog.Builder(this)
+                .setTitle("Are you sure you want to delete this Movement?")
+                .setMessage("This deletes the Movement forever")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (serviceRunning) {
+                            stopService();
+                        }
+                        mMovementDetailViewModel.deleteMovement();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                })
+                .show();
+
     }
 }

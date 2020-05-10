@@ -16,7 +16,8 @@ public class MovementRepository {
         MovementRoomDatabase db = MovementRoomDatabase.getDatabase(application);
         mMovementDao = db.movementDao();
         mMovementPointDao = db.movementPointDao();
-        mAllMovementsWithPoints = mMovementDao.getMovementsWithPoints();
+        //mAllMovementsWithPoints = mMovementDao.getMovementsWithPoints();
+        mAllMovementsWithPoints = mMovementDao.getRecentMovementWithRecentPoint();
     }
 
     public LiveData<List<MovementWithPoints>> getAllMovementsWithPoints() {

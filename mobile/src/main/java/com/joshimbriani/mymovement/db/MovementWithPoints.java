@@ -23,6 +23,7 @@ public class MovementWithPoints {
             entityColumn = "movement_id"
     )
     public List<MovementPoint> points;
+    public long recent_point;
 
     public String getDatetimeRange() {
         if (points.size() == 0) {

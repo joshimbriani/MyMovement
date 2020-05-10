@@ -21,15 +21,16 @@ public interface MovementDao {
     @Query("DELETE FROM movement_table WHERE id = :id")
     void delete(long id);
 
-    @Transaction
-    @Query("SELECT * FROM movement_table ORDER BY name ASC")
-    LiveData<List<MovementWithPoints>> getMovementsWithPoints();
-
-    @Query("SELECT * FROM movement_table WHERE id = :id")
+    // We include this extra useless column here to avoid having to make an extra MovementWithPoints class that includes a recent_point field
+    @Query("SELECT *, 0 AS recent_point FROM movement_table WHERE id = :id")
     LiveData<MovementWithPoints> getMovement(long id);
 
     @Query("SELECT * FROM movement_table WHERE id = :id")
     Movement getRawMovement(long id);
+
+    @Transaction
+    @Query("SELECT id, name, MAX(datetime) AS recent_point FROM (SELECT * FROM movement_table INNER JOIN movement_point_table ON movement_table.id=movement_point_table.movement_id) GROUP BY id ORDER BY MAX(datetime) DESC")
+    LiveData<List<MovementWithPoints>> getRecentMovementWithRecentPoint();
 
     @Update
     void updateMovement(Movement movement);

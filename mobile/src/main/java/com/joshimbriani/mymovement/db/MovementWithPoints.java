@@ -1,5 +1,6 @@
 package com.joshimbriani.mymovement.db;
 
+import android.util.JsonWriter;
 import android.util.Log;
 
 import androidx.room.Embedded;
@@ -11,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.joshimbriani.mymovement.db.Movement;
 import com.joshimbriani.mymovement.db.MovementPoint;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
@@ -94,5 +96,21 @@ public class MovementWithPoints {
         //Collections.sort(points, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
         points.sort((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
         Log.e("TEST", points.get(0) + "f");
+    }
+
+    public void movementToJson(JsonWriter writer) throws IOException {
+        writer.beginObject();
+        writer.name("id").value(this.movement.getId());
+        writer.name("name").value(this.movement.getName());
+        writer.name("points").beginArray();
+        for (MovementPoint point : this.points) {
+            writer.beginObject();
+            writer.name("id").value(point.getId());
+            writer.name("lat").value(point.getLat());
+            writer.name("lon").value(point.getLon());
+            writer.endObject();
+        }
+        writer.endArray();
+        writer.endObject();
     }
 }

@@ -26,12 +26,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.joshimbriani.mymovement.R;
 import com.joshimbriani.mymovement.db.MovementPoint;
 import com.joshimbriani.mymovement.db.MovementWithPoints;
 import com.joshimbriani.mymovement.services.LocationService;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovementDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MovementDetailViewModel mMovementDetailViewModel;
@@ -43,6 +50,7 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     private boolean serviceRunning;
     private Menu menu;
     private SharedPreferences mPreferences;
+    private MovementWithPoints movementWithPoints;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +68,7 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
         movementDetailEmptyText = findViewById(R.id.movement_detail_empty_text);
         recyclerView = findViewById(R.id.movement_detail_recycler_view);
         final MovementDetailListAdapter adapter = new MovementDetailListAdapter(getApplicationContext());
+        adapter.addContext(MovementDetailActivity.this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -68,6 +77,7 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
             if (movement == null) {
                 return;
             }
+            movementWithPoints = movement;
             getSupportActionBar().setTitle(movement.movement.getName());
             if (movement.points.size() > 0) {
                 adapter.setMovement(movement);
@@ -139,7 +149,6 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
     private void setMapPoints() {
         LatLng loc = new LatLng(37.404310, -121.924650);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 13f));
-        map.addMarker(new MarkerOptions().position(loc));
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }
 
@@ -147,6 +156,18 @@ public class MovementDetailActivity extends AppCompatActivity implements OnMapRe
         map.moveCamera(movement.getCameraUpdateForList());
         for (MovementPoint point : movement.points) {
             map.addMarker(new MarkerOptions().position(new LatLng(point.getLat(), point.getLon())));
+        }
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+    }
+
+    protected void setMapPoints(long selectedMarker) {
+        for (MovementPoint point : movementWithPoints.points) {
+            Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(point.getLat(), point.getLon())));
+            if (point.getId() == selectedMarker) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(point.getLat(), point.getLon()), 22f));
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            }
+            marker.setTag(point.getId());
         }
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
     }

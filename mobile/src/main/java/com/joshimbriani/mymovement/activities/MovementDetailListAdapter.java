@@ -30,11 +30,16 @@ public class MovementDetailListAdapter extends RecyclerView.Adapter<MovementDeta
     private final LayoutInflater mInflater;
     private MovementWithPoints mMovement;
     private Context mContext;
+    private Context activityContext;
 
     MovementDetailListAdapter(Context context) {
         super();
         mContext = context;
         mInflater = LayoutInflater.from(context);
+    }
+
+    public void addContext(Context context) {
+        activityContext = context;
     }
 
     @Override
@@ -50,6 +55,8 @@ public class MovementDetailListAdapter extends RecyclerView.Adapter<MovementDeta
             MovementPoint point = this.mMovement.points.get(position);
             holder.pointDetailView.setText(point.getLat() + " " + point.getLon());
             holder.pointDatetimeView.setText(point.getDateTime().format(DateTimeFormatter.ofPattern("hh:mma")));
+
+            holder.itemView.setOnClickListener(v -> ((MovementDetailActivity) activityContext).setMapPoints(point.getId()));
         }
     }
 

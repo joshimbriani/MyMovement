@@ -1,7 +1,6 @@
 package com.joshimbriani.mymovement.db;
 
 import android.util.JsonWriter;
-import android.util.Log;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
@@ -9,13 +8,10 @@ import androidx.room.Relation;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.joshimbriani.mymovement.db.Movement;
-import com.joshimbriani.mymovement.db.MovementPoint;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class MovementWithPoints {
@@ -92,10 +88,7 @@ public class MovementWithPoints {
     }
 
     public void sortPoints() {
-        Log.e("TEST", points.get(0) + "f");
-        //Collections.sort(points, (o1, o2) -> o1.getDateTime().compareTo(o2.getDateTime()));
         points.sort((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
-        Log.e("TEST", points.get(0) + "f");
     }
 
     public void movementToJson(JsonWriter writer) throws IOException {

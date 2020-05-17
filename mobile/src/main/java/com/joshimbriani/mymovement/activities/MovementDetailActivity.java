@@ -32,8 +32,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.joshimbriani.mymovement.R;
-import com.joshimbriani.mymovement.db.MovementPoint;
-import com.joshimbriani.mymovement.db.MovementWithPoints;
+import com.joshimbriani.mymovement.data.MovementPoint;
+import com.joshimbriani.mymovement.data.MovementWithPoints;
 import com.joshimbriani.mymovement.services.LocationService;
 
 import java.lang.reflect.Array;

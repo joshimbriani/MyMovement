@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import com.joshimbriani.mymovement.db.Movement;
+import com.joshimbriani.mymovement.data.Movement;
 import com.joshimbriani.mymovement.services.LocationService;
 import com.joshimbriani.mymovement.R;
 

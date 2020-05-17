@@ -30,8 +30,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.joshimbriani.mymovement.R;
 import com.joshimbriani.mymovement.activities.MainActivity;
-import com.joshimbriani.mymovement.db.MovementPoint;
-import com.joshimbriani.mymovement.db.MovementRepository;
+import com.joshimbriani.mymovement.data.MovementPoint;
+import com.joshimbriani.mymovement.data.MovementRepository;
 
 public class LocationService extends Service {
     public static long serviceId = -1;

@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement.db;
+package com.joshimbriani.mymovement.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -29,7 +29,7 @@ public interface MovementDao {
     Movement getRawMovement(long id);
 
     @Transaction
-    @Query("SELECT id, name, MAX(datetime) AS recent_point FROM (SELECT * FROM movement_table INNER JOIN movement_point_table ON movement_table.id=movement_point_table.movement_id) GROUP BY id ORDER BY MAX(datetime) DESC")
+    @Query("SELECT id, name, MAX(datetime) AS recent_point FROM (SELECT * FROM movement_table INNER JOIN movement_point_table ON movement_table.id=movement_point_table.movement_id UNION SELECT *, -1 as id, -1 as movement_id, 0.0 as lat, 0.0 as lon, 0 as datetime from movement_table m_t WHERE NOT EXISTS (SELECT id from movement_point_table WHERE m_t.id = movement_id)) GROUP BY id ORDER BY MAX(datetime) DESC")
     LiveData<List<MovementWithPoints>> getRecentMovementWithRecentPoint();
 
     @Update

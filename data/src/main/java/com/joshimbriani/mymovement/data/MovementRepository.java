@@ -1,7 +1,6 @@
-package com.joshimbriani.mymovement.db;
+package com.joshimbriani.mymovement.data;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 

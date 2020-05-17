@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement.db;
+package com.joshimbriani.mymovement.data;
 
 import android.os.Build;
 
@@ -9,8 +9,6 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import com.joshimbriani.mymovement.db.Movement;
 
 import java.time.ZonedDateTime;
 

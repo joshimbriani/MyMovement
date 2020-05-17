@@ -5,9 +5,9 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.joshimbriani.mymovement.db.Movement;
-import com.joshimbriani.mymovement.db.MovementRepository;
-import com.joshimbriani.mymovement.db.MovementWithPoints;
+import com.joshimbriani.mymovement.data.Movement;
+import com.joshimbriani.mymovement.data.MovementRepository;
+import com.joshimbriani.mymovement.data.MovementWithPoints;
 
 import java.util.List;
 

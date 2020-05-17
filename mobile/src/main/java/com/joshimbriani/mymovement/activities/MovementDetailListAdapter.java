@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.joshimbriani.mymovement.R;
-import com.joshimbriani.mymovement.db.MovementPoint;
-import com.joshimbriani.mymovement.db.MovementWithPoints;
+import com.joshimbriani.mymovement.data.MovementPoint;
+import com.joshimbriani.mymovement.data.MovementWithPoints;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;

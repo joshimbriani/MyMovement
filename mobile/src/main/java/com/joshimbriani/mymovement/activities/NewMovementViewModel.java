@@ -4,8 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import com.joshimbriani.mymovement.db.Movement;
-import com.joshimbriani.mymovement.db.MovementRepository;
+import com.joshimbriani.mymovement.data.Movement;
+import com.joshimbriani.mymovement.data.MovementRepository;
 
 public class NewMovementViewModel extends AndroidViewModel {
     private MovementRepository mRepository;

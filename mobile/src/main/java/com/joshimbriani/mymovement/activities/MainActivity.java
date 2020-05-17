@@ -23,8 +23,8 @@ import android.view.View;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.snackbar.Snackbar;
 import com.joshimbriani.mymovement.R;
-import com.joshimbriani.mymovement.db.Movement;
-import com.joshimbriani.mymovement.db.MovementWithPoints;
+import com.joshimbriani.mymovement.data.Movement;
+import com.joshimbriani.mymovement.data.MovementWithPoints;
 
 import java.io.File;
 import java.io.FileWriter;

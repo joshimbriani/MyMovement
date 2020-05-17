@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement.db;
+package com.joshimbriani.mymovement.data;
 
 import android.util.JsonWriter;
 

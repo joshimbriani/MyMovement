@@ -40,11 +40,6 @@ dependencies {
     wearApp project(':wear')
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
-    // Room components
-    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
-    annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
-
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
@@ -55,4 +50,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.android.support:preference-v7:29.1.0'
+
+    implementation project(":data")
 }

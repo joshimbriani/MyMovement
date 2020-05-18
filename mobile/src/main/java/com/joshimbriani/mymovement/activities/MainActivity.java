@@ -24,13 +24,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.material.snackbar.Snackbar;
 import com.joshimbriani.mymovement.R;
 import com.joshimbriani.mymovement.data.Movement;
+import com.joshimbriani.mymovement.data.MovementViewModel;
 import com.joshimbriani.mymovement.data.MovementWithPoints;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 

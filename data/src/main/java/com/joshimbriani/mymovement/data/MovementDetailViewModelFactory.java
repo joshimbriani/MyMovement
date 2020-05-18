@@ -1,10 +1,12 @@
-package com.joshimbriani.mymovement.activities;
+package com.joshimbriani.mymovement.data;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.joshimbriani.mymovement.data.MovementDetailViewModel;
 
 public class MovementDetailViewModelFactory implements ViewModelProvider.Factory {
     private Application mApplication;

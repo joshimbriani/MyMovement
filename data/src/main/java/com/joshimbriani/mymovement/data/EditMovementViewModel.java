@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement.activities;
+package com.joshimbriani.mymovement.data;
 
 import android.app.Application;
 
@@ -20,11 +20,11 @@ public class EditMovementViewModel extends AndroidViewModel {
         mMovementWithPoints = mRepository.getMovement(mMovementId);
     }
 
-    LiveData<MovementWithPoints> getMovement() {
+    public LiveData<MovementWithPoints> getMovement() {
         return mMovementWithPoints;
     }
 
-    void setMovementName(String movementName) {
+    public void setMovementName(String movementName) {
         mRepository.updateName(mMovementId, movementName);
     }
 }

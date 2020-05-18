@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.joshimbriani.mymovement.R;
+import com.joshimbriani.mymovement.data.EditMovementViewModel;
+import com.joshimbriani.mymovement.data.EditMovementViewModelFactory;
 
 public class EditMovementActivity extends AppCompatActivity {
     private EditMovementViewModel mEditMovementViewModel;

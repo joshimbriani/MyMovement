@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement.activities;
+package com.joshimbriani.mymovement.data;
 
 import android.app.Application;
 

@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,19 +25,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.joshimbriani.mymovement.R;
+import com.joshimbriani.mymovement.data.MovementDetailViewModel;
+import com.joshimbriani.mymovement.data.MovementDetailViewModelFactory;
 import com.joshimbriani.mymovement.data.MovementPoint;
 import com.joshimbriani.mymovement.data.MovementWithPoints;
 import com.joshimbriani.mymovement.services.LocationService;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MovementDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private MovementDetailViewModel mMovementDetailViewModel;

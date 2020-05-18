@@ -1,4 +1,4 @@
-package com.joshimbriani.mymovement.activities;
+package com.joshimbriani.mymovement.data;
 
 import android.app.Application;
 
@@ -21,7 +21,7 @@ public class MovementViewModel extends AndroidViewModel {
         mAllMovementsWithPoints = mRepository.getAllMovementsWithPoints();
     }
 
-    LiveData<List<MovementWithPoints>> getAllMovementsWithPoints() {
+    public LiveData<List<MovementWithPoints>> getAllMovementsWithPoints() {
         return mAllMovementsWithPoints;
     }
 

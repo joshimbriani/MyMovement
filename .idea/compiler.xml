@@ -4,7 +4,7 @@
     <bytecodeTargetLevel>
       <module name="My_Movement.data" target="1.8" />
       <module name="My_Movement.mobile" target="1.8" />
-      <module name="My_Movement.wear" target="1.7" />
+      <module name="My_Movement.wear" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

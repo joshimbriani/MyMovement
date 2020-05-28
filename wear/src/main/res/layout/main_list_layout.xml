@@ -3,27 +3,47 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/num_points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1" />
+    android:orientation="horizontal"
+    android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@drawable/point_num_bg"
+        android:layout_gravity="center">
+    <TextView
+        android:id="@+id/num_points"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="1"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="5dp"
+        android:layout_weight="2">
         <TextView
             android:id="@+id/movement_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Name"
+            android:layout_marginVertical="5dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"/>
         <TextView
             android:id="@+id/movement_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time" />
+            android:text="Time"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginVertical="5dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Small"
+            />
     </LinearLayout>
 </LinearLayout>

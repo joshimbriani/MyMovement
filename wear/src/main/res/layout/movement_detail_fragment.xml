@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.wear.widget.SwipeDismissFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:background="#000000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="40dp">
-    <TextView
-        android:id="@+id/movement_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Movement Name"
-        android:gravity="center"/>
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/detail_map_view"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_below="@id/movement_detail"
-            map:liteMode="true" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_map_view"
-            />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp">
+            <TextView
+                android:id="@+id/movement_detail_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Movement Name"
+                android:gravity="center"/>
 
-
-</ScrollView>
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/detail_map_view"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@id/movement_detail_name"
+                map:liteMode="true" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detail_map_view"
+                />
+        </RelativeLayout>
+    </ScrollView>
+</androidx.wear.widget.SwipeDismissFrameLayout>

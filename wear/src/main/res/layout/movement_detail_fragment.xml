@@ -23,14 +23,28 @@
             <com.google.android.gms.maps.MapView
                 android:id="@+id/detail_map_view"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 android:layout_below="@id/movement_detail_name"
                 map:liteMode="true" />
-            <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/detail_map_view"
-                />
+                android:layout_marginTop="5dp"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageButton
+                    android:id="@+id/start_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_start"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start"
+                    />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 </androidx.wear.widget.SwipeDismissFrameLayout>

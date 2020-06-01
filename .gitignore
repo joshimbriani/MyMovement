@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 /mobile/src/main/res/values/secrets.xml
+/wear/src/main/res/values/secrets.xml

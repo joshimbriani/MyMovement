@@ -15,7 +15,6 @@ public class MainListViewHolder extends RecyclerView.ViewHolder {
 
     public MainListViewHolder(@NonNull View itemView) {
         super(itemView);
-        Log.e("SEEME", "Creating holder");
         count = itemView.findViewById(R.id.num_points);
         name = itemView.findViewById(R.id.movement_name);
         date = itemView.findViewById(R.id.movement_time);

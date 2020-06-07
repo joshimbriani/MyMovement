@@ -33,22 +33,28 @@ public class MovementPoint {
     @ColumnInfo(name = "datetime")
     private ZonedDateTime mDateTime;
 
+    @NonNull
+    @ColumnInfo(name = "origin")
+    private String mOrigin;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public MovementPoint(@NonNull long id, @NonNull long movementId, @NonNull double lat, @NonNull double lon, ZonedDateTime dateTime) {
+    public MovementPoint(@NonNull long id, @NonNull long movementId, @NonNull double lat, @NonNull double lon, ZonedDateTime dateTime, String origin) {
         this.id = id;
         this.mMovementId = movementId;
         this.mLat = lat;
         this.mLon = lon;
         this.mDateTime = dateTime;
+        this.mOrigin = origin;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Ignore
-    public MovementPoint(@NonNull long movementId, @NonNull double lat, @NonNull double lon) {
+    public MovementPoint(@NonNull long movementId, @NonNull double lat, @NonNull double lon, String origin) {
         this.mMovementId = movementId;
         this.mLat = lat;
         this.mLon = lon;
         this.mDateTime = ZonedDateTime.now();
+        this.mOrigin = origin;
     }
 
     public long getId(){return this.id;}
@@ -56,4 +62,5 @@ public class MovementPoint {
     public double getLat(){return this.mLat;}
     public double getLon(){return this.mLon;}
     public ZonedDateTime getDateTime(){return this.mDateTime;}
+    public String getOrigin(){return this.mOrigin;}
 }

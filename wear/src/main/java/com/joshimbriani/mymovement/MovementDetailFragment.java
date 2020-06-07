@@ -41,6 +41,7 @@ public class MovementDetailFragment extends Fragment implements OnMapReadyCallba
     private MapView movementDetailMapView;
     private GoogleMap map;
     private ImageView startButton;
+    private ImageView deleteButton;
     private boolean serviceRunning;
     private SharedPreferences mPreferences;
 
@@ -81,9 +82,7 @@ public class MovementDetailFragment extends Fragment implements OnMapReadyCallba
         startButton = v.findViewById(R.id.start_icon);
         startButton.setImageDrawable(ResourcesCompat.getDrawable(getResources(), serviceRunning ? R.drawable.ic_stop : R.drawable.ic_start, null));
         startButton.setOnClickListener(v1 -> {
-            Log.e("SEEME", "Clicking");
             if (!serviceRunning) {
-                Log.e("SEEME", "Starting service");
                 Intent serviceIntent = new Intent(getContext(), LocationService.class);
                 serviceIntent.putExtra("movementId", id);
                 serviceIntent.putExtra("refreshInterval", Integer.parseInt(mPreferences.getString("refresh_value", "60")));
@@ -116,6 +115,13 @@ public class MovementDetailFragment extends Fragment implements OnMapReadyCallba
         });
         swipeDismissFrameLayout.addView(v);
         swipeDismissFrameLayout.addCallback(callback);
+
+        deleteButton = v.findViewById(R.id.delete_icon);
+        deleteButton.setOnClickListener(v1 -> {
+            mMovementDetailViewModel.deleteMovement();
+            getFragmentManager().popBackStackImmediate();
+        });
+
         return swipeDismissFrameLayout;
     }
 

@@ -1,5 +1,6 @@
 package com.joshimbriani.mymovement.services;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -9,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Handler;
@@ -19,6 +21,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,12 +31,20 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.wearable.DataClient;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
+import com.google.gson.Gson;
 import com.joshimbriani.mymovement.MainActivity;
 import com.joshimbriani.mymovement.R;
+import com.joshimbriani.mymovement.data.GsonWithZonedDateTime;
 import com.joshimbriani.mymovement.data.MovementPoint;
 import com.joshimbriani.mymovement.data.MovementRepository;
 
 public class LocationService extends Service {
+    private static final String TAG = "com.joshimbriani.mymove";
     public static long serviceId = -1;
     public static int refreshInterval;
     public static boolean serviceRunning = false;
@@ -44,6 +55,8 @@ public class LocationService extends Service {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
+    private DataClient dataClient;
+    private Gson gson;
 
     private MovementRepository movementRepository;
 
@@ -51,6 +64,8 @@ public class LocationService extends Service {
     public void onCreate() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         movementRepository = new MovementRepository(getApplication());
+        dataClient = Wearable.getDataClient(getApplicationContext());
+        gson = GsonWithZonedDateTime.getGson();
     }
 
     @Override
@@ -66,8 +81,10 @@ public class LocationService extends Service {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                MovementPoint movementPoint = new MovementPoint(serviceId, locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                MovementPoint movementPoint = new MovementPoint(serviceId, locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude(), "wear");
                 movementRepository.insert(movementPoint);
+
+                syncMovementPoint(movementPoint);
             }
         };
 
@@ -122,6 +139,16 @@ public class LocationService extends Service {
     private void getAndSaveLocationToMovement() {
         locationRequest = createLocationRequest();
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         fusedLocationProviderClient.getLastLocation()
                 .addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
@@ -151,5 +178,14 @@ public class LocationService extends Service {
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw null;
+    }
+
+    private void syncMovementPoint(MovementPoint movementPoint) {
+        PutDataMapRequest putDataMapRequest = PutDataMapRequest.create("/movement/" + serviceId + "/" + movementPoint.getId());
+        putDataMapRequest.getDataMap().putString("com.joshimbriani.mymovement.movement", gson.toJson(movementPoint));
+        PutDataRequest putDataRequest = putDataMapRequest.asPutDataRequest();
+        Task<DataItem> putDataTask = dataClient.putDataItem(putDataRequest);
+
+        putDataTask.addOnCompleteListener(task -> Log.e(TAG, "Synced data point"));
     }
 }

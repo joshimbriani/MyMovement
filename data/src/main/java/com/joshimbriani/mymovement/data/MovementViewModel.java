@@ -28,4 +28,12 @@ public class MovementViewModel extends AndroidViewModel {
     public void insert(Movement movement) {
         mRepository.insert(movement);
     }
+
+    public void insertMovementIfDoesntExist(Movement data) {
+        mRepository.insertMovementIfDoesntExist(data);
+    }
+
+    public void insert(MovementPoint point) {
+        mRepository.insert(point);
+    }
 }

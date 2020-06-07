@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Dao
@@ -23,4 +24,7 @@ public interface MovementPointDao {
 
     @Query("SELECT * FROM movement_point_table WHERE movement_id = :id ORDER BY datetime desc")
     List<MovementPoint> getPointsByMovementList(long id);
+
+    @Query("SELECT * FROM movement_point_table WHERE datetime = :datetime")
+    MovementPoint getRawPointByDatetime(long datetime);
 }

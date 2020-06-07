@@ -25,7 +25,7 @@ public abstract class MovementRoomDatabase extends RoomDatabase {
     static MovementRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (MovementRoomDatabase.class) {
-                INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MovementRoomDatabase.class, "movement_database").addCallback(sRoomDatabaseCallback).build();
+                INSTANCE = Room.databaseBuilder(context.getApplicationContext(), MovementRoomDatabase.class, "movement_database").build();
             }
         }
         return INSTANCE;
@@ -44,23 +44,23 @@ public abstract class MovementRoomDatabase extends RoomDatabase {
                 dao.deleteAll();
                 mPDao.deleteAll();
 
-                Movement movement = new Movement("First trip");
+                Movement movement = new Movement("First trip", "mobile");
                 long m1id = dao.insert(movement);
-                MovementPoint mP1 = new MovementPoint(m1id, 41.482265, -82.683510);
-                MovementPoint mP2 = new MovementPoint(m1id, 41.482275, -82.683500);
-                MovementPoint mP3 = new MovementPoint(m1id, 41.482285, -82.683490);
+                MovementPoint mP1 = new MovementPoint(m1id, 41.482265, -82.683510, "mobile");
+                MovementPoint mP2 = new MovementPoint(m1id, 41.482275, -82.683500, "mobile");
+                MovementPoint mP3 = new MovementPoint(m1id, 41.482285, -82.683490, "mobile");
                 mPDao.insert(mP1, mP2, mP3);
-                movement = new Movement("Cedar Point - March 23rd 2019");
+                movement = new Movement("Cedar Point - March 23rd 2019", "mobile");
                 long m2id = dao.insert(movement);
-                MovementPoint mP4 = new MovementPoint(m2id, 41.482265, -82.683510);
-                MovementPoint mP5 = new MovementPoint(m2id, 41.482275, -82.683500);
-                MovementPoint mP6 = new MovementPoint(m2id, 41.482285, -82.683490);
+                MovementPoint mP4 = new MovementPoint(m2id, 41.482265, -82.683510, "mobile");
+                MovementPoint mP5 = new MovementPoint(m2id, 41.482275, -82.683500, "mobile");
+                MovementPoint mP6 = new MovementPoint(m2id, 41.482285, -82.683490, "mobile");
                 mPDao.insert(mP4, mP5, mP6);
-                movement = new Movement("HHN - October 28th 2019");
+                movement = new Movement("HHN - October 28th 2019", "mobile");
                 long m3id = dao.insert(movement);
-                MovementPoint mP7 = new MovementPoint(m2id, 41.482265, -82.683510);
-                MovementPoint mP8 = new MovementPoint(m2id, 41.482275, -82.683500);
-                MovementPoint mP9 = new MovementPoint(m2id, 41.482285, -82.683490);
+                MovementPoint mP7 = new MovementPoint(m2id, 41.482265, -82.683510, "mobile");
+                MovementPoint mP8 = new MovementPoint(m2id, 41.482275, -82.683500, "mobile");
+                MovementPoint mP9 = new MovementPoint(m2id, 41.482285, -82.683490, "mobile");
                 mPDao.insert(mP7, mP8, mP9);
             });
         }

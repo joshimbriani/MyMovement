@@ -1,5 +1,6 @@
 package com.joshimbriani.mymovement.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -13,6 +14,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.JsonWriter;
 import android.util.Log;
@@ -21,9 +23,19 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.wearable.DataClient;
+import com.google.android.gms.wearable.DataEvent;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataItem;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.Wearable;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.joshimbriani.mymovement.R;
+import com.joshimbriani.mymovement.data.GsonWithZonedDateTime;
 import com.joshimbriani.mymovement.data.Movement;
+import com.joshimbriani.mymovement.data.MovementPoint;
 import com.joshimbriani.mymovement.data.MovementViewModel;
 import com.joshimbriani.mymovement.data.MovementWithPoints;
 
@@ -32,6 +44,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     public static final int NEW_MOVEMENT_ACTIVITY_REQUEST_CODE = 1;
@@ -156,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_MOVEMENT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Movement movement = new Movement(data.getStringExtra(NewMovementActivity.EXTRA_REPLY));
+            Movement movement = new Movement(data.getStringExtra(NewMovementActivity.EXTRA_REPLY), "mobile");
             mMovementViewModel.insert(movement);
         } else {
             Snackbar.make(findViewById(R.id.main_root_layout), "Empty name", Snackbar.LENGTH_SHORT);

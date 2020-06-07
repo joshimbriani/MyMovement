@@ -8,4 +8,10 @@
             android:defaultValue="60"
             android:dialogLayout="@layout/preference_edit_text" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Data Options">
+        <Preference
+            android:title="Sync Data"
+            android:key="syncButton" />
+    </PreferenceCategory>
 </PreferenceScreen>

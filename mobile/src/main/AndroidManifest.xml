@@ -23,6 +23,13 @@
             android:exported="false"
             android:foregroundServiceType="location"
             android:description="@string/location_service_desc" />
+        <service android:name=".services.DataLayerListenerService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*"
+                    android:pathPrefix="/movement" />
+            </intent-filter>
+        </service>
 
         <activity android:name=".activities.MainActivity">
             <intent-filter>
